@@ -1,0 +1,33 @@
+﻿  graphtest.cpp
+C:\Users\nweller\source\repos\Graphs1_take2-2\dependencies\googletest-distribution\include\gtest\gtest.h(1552,7): error C2678: binary '==': no operator found which takes a left-hand operand of type 'const T1' (or there is no acceptable conversion)
+          with
+          [
+              T1=ssuds::UnorderedMap<std::string,float>::UnorderedMapIterator
+          ]
+C:\Users\nweller\source\repos\Graphs1_take2-2\include\ssuds\unordered_map.h(77,9): message : could be 'bool ssuds::UnorderedMap<N,E>::UnorderedMapIterator::operator ==(const ssuds::UnorderedMap<N,E>::UnorderedMapIterator &) const'
+          with
+          [
+              N=std::string,
+              E=float
+          ]
+C:\Users\nweller\source\repos\Graphs1_take2-2\dependencies\googletest-distribution\include\gtest\gtest.h(1543,13): message : or       'bool testing::internal::operator ==(testing::internal::faketype,testing::internal::faketype)'
+C:\Users\nweller\source\repos\Graphs1_take2-2\dependencies\googletest-distribution\include\gtest\gtest.h(1552,7): message : or       'built-in C++ operator==(const char [3], const char [3])'
+C:\Users\nweller\source\repos\Graphs1_take2-2\dependencies\googletest-distribution\include\gtest\gtest.h(1552,7): message : while trying to match the argument list '(const T1, const char [3])'
+          with
+          [
+              T1=ssuds::UnorderedMap<std::string,float>::UnorderedMapIterator
+          ]
+C:\Users\nweller\source\repos\Graphs1_take2-2\dependencies\googletest-distribution\include\gtest\gtest.h(1571,12): message : see reference to function template instantiation 'testing::AssertionResult testing::internal::CmpHelperEQ<T1,char[3]>(const char *,const char *,const T1 &,const T2 (&))' being compiled
+          with
+          [
+              T1=ssuds::UnorderedMap<std::string,float>::UnorderedMapIterator,
+              T2=char [3]
+          ]
+C:\Users\nweller\source\repos\Graphs1_take2-2\src\ssuds\graphtest.cpp(48,2): message : see reference to function template instantiation 'testing::AssertionResult testing::internal::EqHelper::Compare<ssuds::UnorderedMap<N,E>::UnorderedMapIterator,char[3],0x0>(const char *,const char *,const T1 &,const T2 (&))' being compiled
+          with
+          [
+              N=std::string,
+              E=float,
+              T1=ssuds::UnorderedMap<std::string,float>::UnorderedMapIterator,
+              T2=char [3]
+          ]

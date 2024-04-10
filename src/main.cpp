@@ -1,66 +1,93 @@
-#define DO_UNIT_TEST 0
-#if DO_UNIT_TEST
+#define DO_GRAPH_TESTS 1
+#if DO_GRAPH_TESTS
 #include <gtest/gtest.h>
 #else
-#include <word_reader.h>
-#include <array_list.h>
-#include <array_list_utility.h>
+#include <SFML/Graphics.hpp>
+#include <text_circle.h>
+#include <graph1.h>
 #include <iostream>
-#include <unordered_map.h>
-
-// A simple class to keep a pair: word and count (from the map)
-class WordFreq
-{
-public:
-    std::string mWord;
-    unsigned int mCount;
-    WordFreq() : mWord(""), mCount(0) {}
-    WordFreq(std::string w, unsigned int c) : mWord(w), mCount(c) {}
-};
-
-bool operator< (const WordFreq& a, const WordFreq& b) { return a.mCount < b.mCount; }
-bool operator> (const WordFreq& a, const WordFreq& b) { return a.mCount > b.mCount; }
-bool operator== (const WordFreq& a, const WordFreq& b) { return a.mCount == b.mCount; }
-
+#include <word_drawer.h>
+#include <fstream>
+#include <string>
 #endif
 
 int main()
 {
-#if DO_UNIT_TEST
+#if DO_GRAPH_TESTS
     testing::InitGoogleTest();
     return RUN_ALL_TESTS();
 #else
-    misc::WordReader WR("../../../media/books/dracula.txt", misc::WordReader::CharConversion::LOWER);
-    ssuds::UnorderedMap<std::string, unsigned int> WC;
+    const unsigned int win_width = 1000, win_height = 800;
+    sf::RenderWindow window(sf::VideoMode(win_width, win_height), "SFML works!");
+    sf::Font circle_font;
+    if (!circle_font.loadFromFile("../../../media/fonts/Lato/Lato-Black.ttf"))
+        std::cout << "Error opening font file\n";
 
-    std::cout << "Reading file...";
-    while (!WR.done())
-    {
-        std::string w = WR.get_next();
-        if (w.length() > 0)
+    std::fstream inputFile("../../../media/books/output.txt", std::ios::in);
+    std::string line;
+
+    ssuds::Graph<int, float> con;
+    ssuds::UnorderedMap<int, sf::TextCircle> extra;
+
+    while (getline(inputFile, line))
+    { 
+        if (inputFile.peek() == 'e')
         {
-            if (WC.find(w) == WC.end())
-                WC[w] = 1;
-            else
-                WC[w]++;
+            std::string edge;
+            getline(inputFile, edge, ':');
+            int nodebase;
+            inputFile >> nodebase;
+            int nodecon;
+            inputFile >> nodecon;
+            float edgelen;
+            inputFile >> edgelen;
+            con.add_edge(nodebase, nodecon, edgelen);
         }
+        else
+        {
+            std::string node;
+            getline(inputFile, node, ':');
+            int nindex;
+            inputFile >> nindex;
+            std::string name;
+            getline(inputFile, name, ':');
+            int red;
+            inputFile >> red;
+            int green;
+            inputFile >> green;
+            int blue;
+            inputFile >> blue;
+            float x;
+            inputFile >> x;
+            float y;
+            inputFile >> y;
+            con.add_node(nindex);
+            sf::TextCircle temp(x, y, circle_font, name);
+            temp.setCircleColor(sf::Color(red, green, blue));
+            extra[nindex] = temp;
+        }
+
+        std::cout << line << std::endl;
     }
-    std::cout << "done!\n";
 
-    std::cout << "Sorting...";
-    ssuds::ArrayList<WordFreq> WL;
-    for (std::pair<std::string, unsigned int> p : WC)
-        WL.append(WordFreq(p.first, p.second));
-    // quicksort stack overflowed!
-    //ssuds::quicksort(WL, ssuds::SortOrder::DESCENDING);
-    ssuds::bubblesort(WL, ssuds::SortOrder::DESCENDING);
-    std::cout << "done!\n";
+    inputFile.close();
 
-    const unsigned int n = 20;
-    std::cout << "Top " << n << " words\n";
-    std::cout << "===========================\n";
-    for (unsigned int i = 0; i < n && i < WL.size(); i++)
-        std::cout << i << "\t" << WL[i].mWord << "(" << WL[i].mCount << ")\n";
+    
+    /*misc::WordDrawer WD("../../../media/SCOWL/final/american-words.80", circle_font);
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (!WD.handle_event(event))
+                window.close();
+        }
+
+        window.clear();
+        WD.draw(window);
+        window.display();
+    }*/
 
     return 0;
 #endif

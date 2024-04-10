@@ -17,6 +17,7 @@
     <ClCompile Include="..\..\src\misc\word_reader.cpp" />
     <ClCompile Include="..\..\src\ssuds\array_list_tests.cpp" />
     <ClCompile Include="..\..\src\ssuds\array_list_utility_tests.cpp" />
+    <ClCompile Include="..\..\src\ssuds\graphtest.cpp" />
     <ClCompile Include="..\..\src\ssuds\linked_list_tests.cpp" />
     <ClCompile Include="..\..\src\ssuds\ordered_set_tests.cpp" />
     <ClCompile Include="..\..\src\ssuds\queues_tests.cpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="..\..\include\misc\word_reader.h" />
     <ClInclude Include="..\..\include\ssuds\array_list.h" />
     <ClInclude Include="..\..\include\ssuds\array_list_utility.h" />
+    <ClInclude Include="..\..\include\ssuds\graph1.h" />
     <ClInclude Include="..\..\include\ssuds\linked_list.h" />
     <ClInclude Include="..\..\include\ssuds\ordered_set.h" />
     <ClInclude Include="..\..\include\ssuds\queue.h" />

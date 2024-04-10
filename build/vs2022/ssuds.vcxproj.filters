@@ -66,6 +66,9 @@
     <ClCompile Include="..\..\src\misc\word_reader.cpp">
       <Filter>Source Files\misc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\ssuds\graphtest.cpp">
+      <Filter>Source Files\ssuds_testing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\ssuds\array_list.h">
@@ -97,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\misc\word_reader.h">
       <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ssuds\graph1.h">
+      <Filter>Header Files\ssuds</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

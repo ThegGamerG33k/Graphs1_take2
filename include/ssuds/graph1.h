@@ -31,12 +31,12 @@ namespace ssuds
 		void add_edge(const N& start_nval, const N& dest_nval, const E& eval)
 		{
 			// Do we want to raise an exception if the nodes don't exist?
-			UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_val);
+			typename UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_nval);
 			if (it != mData.end())
 			{
 				// We do have the node start_val in our map
-				it = mData.find(dest_nval)
-					if (it != mData.end()
+				it = mData.find(dest_nval);
+					if (it != mData.end())
 					{
 						// We do have the dest_nval -- make an edge
 						mData[start_nval][dest_nval] = eval;
@@ -57,7 +57,7 @@ namespace ssuds
 		{
 			//find the node for the given starting value and check to see if is in the graph, if there is return 
 			//true, if there isn's return false as there is not edge connecting the nodes
-			UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_val);
+			typename UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(nval);
 			if (it != mData.end())
 			{
 				return true;
@@ -77,13 +77,13 @@ namespace ssuds
 		bool contains_edge(const N& start_nval, const N& dest_nval)
 		{
 			//find the node for the given starting value and check to see if is in the graph
-			UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_val);
+			typename UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_nval);
 			if (it != mData.end())
 			{
 				//look to see if there is a connection between the starting node and the given dest_node, if there is return 
 				//true, if there isn's return false as there is not edge connecting the nodes
-				UnorderedMap<N,E>::UnorderedMapIterator it2 = (*it).second.find(dest_nval);
-				if (it2 != end)
+				typename UnorderedMap<N,E>::UnorderedMapIterator it2 = (*it).second.find(dest_nval);
+				if (it2 != (*it).second.end())
 				{
 					return true;
 				}
@@ -107,7 +107,7 @@ namespace ssuds
 		/// <returns>true if it finds the node given and false if it does not</returns>
 		bool remove_node(const N& start_nval)
 		{
-			UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_nval);
+			typename UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_nval);
 			if (it != mData.end())
 			{
 				mData.remove((*it).first);
@@ -128,11 +128,11 @@ namespace ssuds
 		/// found it also returns false</returns>
 		bool remove_edge(const N& start_nval, const N& dest_nval)
 		{
-			UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_nval);
+			typename UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_nval);
 			if (it != mData.end())
 			{
-				UnorderedMap<N, E>::UnorderedMapIterator it2 = (*it).second.find(dest_nval);
-				if (it2 != mData.end())
+				typename UnorderedMap<N, E>::UnorderedMapIterator it2 = (*it).second.find(dest_nval);
+				if (it2 != (*it).second.end())
 				{
 					(*it).second.remove(dest_nval);
 					return true;
@@ -158,13 +158,13 @@ namespace ssuds
 		/// will throw an error saying the given node value is invalid</returns>
 		const E& get_edge(const N& start_nval, const N& dest_nval)
 		{
-			UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_nval);
+			typename UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = mData.find(start_nval);
 			if (it != mData.end())
 			{
-				UnorderedMap<N, E>::UnorderedMapIterator it2 = (*it).second.find(dest_nval);
-				if (it2 != mData.end())
+				typename UnorderedMap<N, E>::UnorderedMapIterator it2 = (*it).second.find(dest_nval);
+				if (it2 != (*it).second.end())
 				{
-					const E& edge = (*it2);
+					const E& edge = (*it2).second;
 					return edge;
 				}
 				else
@@ -183,7 +183,7 @@ namespace ssuds
 		/// </summary>
 		/// <param name="nval"></param>
 		/// <returns>returns all connected nodes to the given node</returns>
-		typename ssuds::UnorderedMap<N, E>::UnorderedMapIterator get_neighbor_iterator(const N& nval)
+		typename UnorderedMap<N, E>::UnorderedMapIterator get_neighbor_iterator(const N& nval)
 		{
 			auto it = mData.find(nval);
 		}
@@ -198,11 +198,11 @@ namespace ssuds
 		/// <returns>A output formatted like: N | (N1, E1)</returns>
 		friend std::ostream operator<< (std::ostream& os, const Graph& G)
 		{
-			UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = G.mData.begin());
+			typename UnorderedMap<N, UnorderedMap<N, E>>::UnorderedMapIterator it = G.mData.begin();
 			while (it != G.mData.end())
 			{
-				os << (*it).first << " | "
-				UnorderedMap<N, E>::UnorderedMapIterator it2 = (*it).second.begin();
+				os << (*it).first << " | ";
+				typename UnorderedMap<N, E>::UnorderedMapIterator it2 = (*it).second.begin();
 				while (it2 != G.mData.end())
 				{
 					os << "(" << (*it2).first << ": " << (*it).second << ")" ;
